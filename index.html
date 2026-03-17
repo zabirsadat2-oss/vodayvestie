@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VODAY 2 TAKAR PUDINA</title>
+    <style>
+        :root {
+            --bg-color: linear-gradient(45deg, #a8ff78, #78ffd6);
+            --emoji: "🌿";
+        }
+
+        body {
+            background: var(--bg-color);
+            font-family: 'Comic Sans MS', cursive;
+            text-align: center;
+            overflow: hidden;
+            height: 100vh;
+            transition: background 1s ease-in-out;
+        }
+
+        /* Roast Card */
+        #roast-card {
+            background: white;
+            border: 8px solid #2d5a27;
+            width: 300px;
+            margin: 100px auto;
+            padding: 20px;
+            box-shadow: 15px 15px 0px #000;
+        }
+
+        /* Romantic Screen (Hidden initially) */
+        #kiss-screen {
+            display: none;
+            margin-top: 15vh;
+        }
+
+        #kiss-screen h1 {
+            font-size: 60px;
+            color: white;
+            text-shadow: 4px 4px #ff00ea;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 15px;
+            cursor: pointer;
+            border: none;
+            font-weight: bold;
+            border-radius: 10px;
+        }
+
+        #runaway-btn {
+            position: absolute;
+            background: #ff4500;
+            color: white;
+        }
+
+        #truce-btn {
+            display: none;
+            background: #ff00ea;
+            color: white;
+            margin-top: 20px;
+        }
+
+        /* Falling Emojis */
+        .falling {
+            position: absolute;
+            font-size: 30px;
+            z-index: 1;
+            animation: fall 3s linear infinite;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-10vh) rotate(0deg); }
+            100% { transform: translateY(110vh) rotate(360deg); }
+        }
+    </style>
+</head>
+<body id="main-body">
+
+    <div id="roast-card">
+        <h2 id="status-text">CURRENT STATUS: 2 TAKAR PUDINA</h2>
+        <p>You are cheap, you are green, you are my Vestie.</p>
+        <button id="runaway-btn" class="btn">CLAIM BIRTHDAY KISS</button>
+        <br><br>
+        <button id="truce-btn" onclick="startTheRomance()" class="btn">OK FINE, I GIVE UP. CLICK ME. 🙄</button>
+    </div>
+
+    <div id="kiss-screen">
+        <h1>MUAH! 😘 HAPPY VODAY!</h1>
+        <div style="font-size: 100px;">💋👩‍❤️‍💋‍👩💋</div>
+        <p style="color: white; font-size: 20px;">You are now a 1000 Takar Pudina.</p>
+    </div>
+
+    <script>
+        const btn = document.getElementById('runaway-btn');
+        const truceBtn = document.getElementById('truce-btn');
+        let attempts = 0;
+        let currentEmoji = "🌿";
+
+        // Runaway logic
+        btn.addEventListener('mouseover', () => {
+            attempts++;
+            const x = Math.random() * (window.innerWidth - 100);
+            const y = Math.random() * (window.innerHeight - 50);
+            btn.style.left = x + 'px';
+            btn.style.top = y + 'px';
+
+            if (attempts > 5) {
+                truceBtn.style.display = "inline-block";
+            }
+        });
+
+        // The Transformation
+        function startTheRomance() {
+            // Hide roast, show romance
+            document.getElementById('roast-card').style.display = "none";
+            document.getElementById('kiss-screen').style.display = "block";
+            
+            // Change Background
+            document.getElementById('main-body').style.background = "radial-gradient(circle, #ff9a9e 0%, #fecfef 99%, #fecfef 100%)";
+            
+            // Swap Emojis to Kisses
+            currentEmoji = "💋";
+            
+            // Trigger extra kiss emojis
+            for(let i=0; i<20; i++) {
+                setTimeout(createFallingEmoji, i * 100);
+            }
+        }
+
+        // Falling items logic
+        function createFallingEmoji() {
+            const leaf = document.createElement('div');
+            leaf.classList.add('falling');
+            leaf.innerHTML = currentEmoji === "🌿" ? (Math.random() > 0.5 ? "🌿" : "🌱") : (Math.random() > 0.5 ? "💋" : "😘");
+            leaf.style.left = Math.random() * 100 + 'vw';
+            leaf.style.animationDuration = (Math.random() * 2 + 2) + 's';
+            document.body.appendChild(leaf);
+            
+            setTimeout(() => leaf.remove(), 3000);
+        }
+
+        setInterval(createFallingEmoji, 300);
+    </script>
+</body>
+</html>
